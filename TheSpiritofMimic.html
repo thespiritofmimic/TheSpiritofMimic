@@ -1,0 +1,555 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TheSpiritofMimic</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+<style>
+
+/* ================================================= */
+/* RESET & BASE */
+/* ================================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html{ scroll-behavior:smooth; }
+
+body{
+    font-family:'Kanit',sans-serif;
+    overflow-x:hidden;
+    color:white;
+    background:
+    linear-gradient(rgba(0,20,60,0.55),rgba(0,20,60,0.75)),
+    url("https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=2070&auto=format&fit=crop");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    padding-bottom: 100px;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Background Animation */
+body::before{
+    content:""; position:fixed; inset:0;
+    background:    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16), transparent 20%),
+    radial-gradient(circle at 80% 30%, rgba(70,200,255,0.18), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.08), transparent 20%);
+    animation:bgMove 10s linear infinite alternate;
+    pointer-events:none; z-index:-1;
+}
+@keyframes bgMove{ from{transform:translateY(0);} to{transform:translateY(-40px);} }
+
+/* Cursor Glow */
+.cursor-glow{
+    position:fixed; width:250px; height:250px; border-radius:50%;
+    background:radial-gradient(circle, rgba(90,210,255,0.25), transparent 70%);
+    pointer-events:none; transform:translate(-50%,-50%); z-index:-1;
+}
+
+/* Page System */
+.page{ min-height:100vh; width:100%; display:none; animation:fadePage 0.5s ease; }
+.page.active{ display:block; }
+@keyframes fadePage{ from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
+
+.container{ width:90%; max-width:1300px; margin:auto; padding:40px 0 100px; }
+
+/* ================================================= */
+/* HOME PAGE DESIGN */
+/* ================================================= */
+
+.hero-main {
+    text-align: center;
+    padding-top: 40px;
+    margin-bottom: 30px;
+}
+
+.logo-large {
+    font-size: clamp(3rem, 9vw, 8rem);
+    font-weight: 900;
+    color: white;
+    text-shadow: 
+        0 0 10px #8fe7ff,
+        0 0 20px #4cc5ff,
+        0 0 40px #1d9fff,
+        6px 6px 0 #0d4f92,
+        10px 10px 0 rgba(0,0,0,0.35);
+    animation: floatLogo 4s ease-in-out infinite;
+    letter-spacing: -2px;
+    line-height: 1.1;
+}
+
+@keyframes floatLogo { 
+    0%, 100% { transform: translateY(0px); } 
+    50% { transform: translateY(-10px); } }
+
+.welcome-card {
+    max-width: 800px;
+    margin: 0 auto 50px auto;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+}
+
+.welcome-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #bff5ff;
+    text-shadow: 0 0 15px rgba(70, 200, 255, 0.5);
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+}
+
+/* ================================================= */
+/* CLEAR GLASS STYLE */
+/* ================================================= */
+
+.glass{
+    position:relative; 
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255, 255, 255, 0.3); 
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 35px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.glass:hover{ 
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.grid{ margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:25px; }
+/* ================================================= */
+/* CARD STYLE */
+/* ================================================= */
+
+.card{
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-3px);
+}
+
+.card-header{
+    padding: 20px 25px;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.card-header h3{
+    font-size: 1.2rem; font-weight: 500; letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.card-header i{
+    font-size: 1.1rem; color: rgba(255, 255, 255, 0.6);
+    background: rgba(255,255,255,0.05);
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, color 0.3s ease;
+}
+
+/* Grid Animation */
+.card-content-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card.active .card-content-wrapper { grid-template-rows: 1fr; }
+.card-content { overflow: hidden; background: rgba(0, 0, 0, 0.15); }
+
+.card-content-inner {
+    padding: 0 25px 25px 25px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.card.active .card-content-inner {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
+}
+
+.card-content ul { list-style: none; }
+.card-content li{
+    margin: 10px 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.9);
+    display: flex; align-items: center; gap: 10px;
+}
+
+.card.active {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(70, 200, 255, 0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card.active .card-header i {
+    transform: rotate(180deg);
+    background: rgba(70, 200, 255, 0.2);
+    color: #4cc5ff;
+}
+
+/* ================================================= */
+/* SOCIAL & OTHERS */
+/* ================================================= */
+
+.social-title{ text-align:center; margin-top:40px; font-size:1.8rem; color: #e8faff; }
+.socials{ margin-top:30px; display:flex; justify-content:center; flex-wrap:wrap; gap:25px; }
+.social{
+    width:90px; height:90px; border-radius:25px; display:flex; align-items:center; justify-content:center;
+    font-size:2.2rem; cursor:pointer; transition:0.35s;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #4cc5ff;
+}
+.social:hover{ transform: translateY(-10px) rotate(2deg) scale(1.08); background: rgba(70, 200, 255, 0.2); border-color: #4cc5ff; color: white; box-shadow: 0 0 20px rgba(70, 200, 255, 0.4); }
+
+.server-box{ margin-top:50px; text-align:center; padding:30px; }.ip-label{ opacity:0.85; letter-spacing:2px; font-size:0.9rem; color:#dff7ff; text-transform: uppercase; }
+.ip{
+    margin-top:15px; font-size:clamp(1.5rem,4vw,3rem); font-weight:900; cursor:pointer; display:inline-block;
+    text-shadow: 0 0 10px #8fe7ff, 0 0 20px #46c0ff, 5px 5px 0 #165a9e;
+    transition: transform 0.15s ease, color 0.25s ease, text-shadow 0.25s ease;
+}
+.ip:hover{ transform:scale(1.05); color:#bff5ff; text-shadow: 0 0 15px #bff5ff, 0 0 30px #46c0ff, 5px 5px 0 #165a9e; }
+.ip:active{ transform:scale(0.94); }
+
+.copy-text{
+    margin-top:14px; opacity:0; transform:translateY(8px); transition:0.35s ease;
+    color:#6dff8b; font-weight:700; letter-spacing:1px; text-shadow: 0 0 10px #6dff8b, 0 0 20px #6dff8b;
+}
+.copy-text.show{ opacity:1; transform:translateY(0px); }
+
+.rules-btn, .back-btn{
+    margin-top:30px; display:inline-block; padding:15px 30px; border-radius:999px; cursor:pointer; color:white;
+    background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25); transition:0.35s;
+}
+.rules-btn:hover, .back-btn:hover{ transform:translateY(-5px); background:rgba(255,255,255,0.15); border-color:white; }
+
+/* ================================================= */
+/* RULES / COMING SOON PAGE */
+/* ================================================= */
+
+.rules-page{ text-align:center; padding-top:80px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; }
+
+.coming-soon-title {
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(70, 200, 255, 0.5);
+    text-shadow: 0 0 30px rgba(70, 200, 255, 0.3);
+    letter-spacing: 5px;
+    animation: pulseText 3s infinite ease-in-out;
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.02); text-shadow: 0 0 50px rgba(70, 200, 255, 0.6); }
+}
+
+.coming-soon-sub {
+    font-size: 1.5rem;
+    color: #dff7ff;
+    margin-top: 20px;
+    letter-spacing: 2px;
+}
+
+.footer{ text-align:center; margin-top:60px; opacity:0.6; font-size: 0.9rem; }
+/* Bottom Nav (Clear Glass) */
+.bottom-nav {
+    position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 15px; padding: 10px 25px;
+    background: rgba(10, 30, 60, 0.4); 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); z-index: 1000;
+}
+.nav-item {
+    display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;
+    padding: 10px 20px; border-radius: 50px; color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem; font-weight: 500; cursor: pointer;
+    transition: all 0.3s ease; white-space: nowrap;
+}
+.nav-item i { font-size: 1.3rem; }
+.nav-item:hover { color: white; background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); }
+.nav-item.active {
+    color: white; background: rgba(70, 200, 255, 0.3);
+    border: 1px solid rgba(70, 200, 255, 0.5);
+    transform: translateY(-5px);
+}
+@media(max-width: 600px) {
+    .bottom-nav { width: 90%; justify-content: space-around; bottom: 15px; padding: 8px; gap: 10px; }
+    .nav-item { padding: 8px 15px; font-size: 1rem; }
+    .nav-item i { font-size: 1.2rem; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="cursor-glow"></div>
+
+<!-- ================================================= -->
+<!-- PAGE 1 : HOME -->
+<!-- ================================================= -->
+<div class="page active" id="homePage">
+<div class="container">
+    
+    <section class="hero-main">
+        <div class="logo-large">TheSpiritofMimic</div>
+    </section>
+
+    <section class="welcome-card glass">
+        <div class="welcome-title">
+            ยินดีต้อนรับเข้าสู่ Website ทางการของ TheSpiritofMimic        </div>
+        <div class="welcome-text">
+            เว็บไซต์นี้เป็นเว็บไซต์ที่สร้างมาเพื่อให้ผู้คนได้เข้ามาเยี่ยมชมบ้าง<br>
+            ไม่ได้สร้างจริงจังอะไรมาก แต่ตั้งใจทำออกมาให้สวยงามในธีมสีฟ้า<br>
+            หวังว่าคุณจะเพลิดเพลินกับการใช้งานนะครับ!
+        </div>
+    </section>
+
+    <h2 class="social-title">ติดตามผมได้ที่</h2>
+    <div class="socials">
+        <div class="social"><i class="fa-brands fa-youtube"></i></div>
+        <div class="social"><i class="fa-brands fa-instagram"></i></div>
+        <div class="social"><i class="fa-brands fa-tiktok"></i></div>
+        <div class="social"><i class="fa-brands fa-discord"></i></div>
+    </div>
+
+    <div class="footer">© 2026 TheSpiritofMimic.com</div>
+</div>
+</div>
+
+<!-- ================================================= -->
+<!-- PAGE 2 : MINECRAFT SERVER -->
+<!-- ================================================= -->
+<div class="page" id="serverPage">
+<div class="container">
+    
+    <section class="hero-main">
+        <div class="logo-large" style="font-size: clamp(2rem, 5vw, 4.5rem);">TheSpiritofMimic<br>Minecraft Server</div>
+        <div class="tagline" style="margin-top:15px; opacity:0.8; font-size: 1.2rem;">รายละเอียดทางเทคนิคและคุณสมบัติ</div>
+    </section>
+
+    <section class="grid">
+        <!-- CARD 1 -->
+        <div class="card">
+            <div class="card-header">
+                <h3>SERVER SPECS</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="card-content-wrapper">
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <ul>
+                            <li>🖥 Intel Core i5 4590</li>
+                            <li>⚡ 4 Cores / 4 Threads</li>
+                            <li>💾 RAM DDR3 8GB x2</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- CARD 2 -->
+        <div class="card">
+            <div class="card-header">
+                <h3>FEATURES</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="card-content-wrapper">
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <ul>
+                            <li>✔ Classic Survival</li>
+                            <li>✔ ระบบย้อนพื้นที่</li>
+                            <li>✔ ป้องกันพื้นที่</li>
+                            <li>✔ ป้องกันการโกง</li>
+                            <li>✔ ตายของไม่ตก</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card">
+            <div class="card-header">
+                <h3>PROPERTIES</h3>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="card-content-wrapper">
+                <div class="card-content">
+                    <div class="card-content-inner">
+                        <ul>
+                            <li>📦 Render Distance : 64 Chunks</li>
+                            <li>📦 Simulation Distance : 5 Chunks</li>
+                            <li>🌍 Online Mode : False</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="server-box glass">
+        <div class="ip-label">CLICK TO COPY SERVER IP</div>
+        <div class="ip" id="copyIP">TheSpiritofMimic.Server.net</div>
+        <div class="copy-text" id="copyText">✅ Copied!</div>
+        
+        <div class="rules-btn" onclick="openRules()">📜 View Server Rules</div>
+    </section>
+    <div class="footer">© 2026 TheSpiritofMimic.com</div>
+</div>
+</div>
+
+<!-- ================================================= -->
+<!-- PAGE 3 : RULES (COMING SOON) -->
+<!-- ================================================= -->
+<div class="page" id="rulesPage">
+<div class="container">
+    <section class="rules-page">
+        <div class="coming-soon-title">Coming Soon</div>
+        <div class="coming-soon-sub">กำลังรอการอัปเดต...</div>
+        <div class="back-btn" onclick="backHome()" style="margin-top: 50px;">⬅ Back To Home</div>
+    </section>
+    <div class="footer">© 2026 TheSpiritofMimic.com</div>
+</div>
+</div>
+
+<!-- ================================================= -->
+<!-- BOTTOM NAVIGATION BAR -->
+<!-- ================================================= -->
+<nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home')" title="Home">
+        <i class="fa-solid fa-house"></i><span>Home</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('server')" title="MC Server">
+        <i class="fa-solid fa-server"></i><span>MC Server</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('rules')" title="Rules">
+        <i class="fa-solid fa-scroll"></i><span>Rules</span>
+    </div>
+</nav>
+
+<script>
+
+/* ================================================= */
+/* CARD INTERACTION */
+/* ================================================= */
+
+const cards = document.querySelectorAll(".card");
+cards.forEach(card => {
+    const header = card.querySelector(".card-header");
+    header.addEventListener("click", () => { card.classList.toggle("active"); });
+});
+
+/* ================================================= */
+/* COPY IP */
+/* ================================================= */
+
+const copyIP = document.getElementById("copyIP");const copyText = document.getElementById("copyText");
+copyIP.addEventListener("click", async ()=>{
+    try{
+        await navigator.clipboard.writeText(copyIP.innerText);
+        copyText.innerText = "✅ Copied!";
+        copyText.style.color = "#6dff8b";
+        copyText.classList.add("show");
+        copyIP.style.transform = "scale(1.08)";
+        setTimeout(()=>{ copyIP.style.transform = "scale(1)"; },150);
+        setTimeout(()=>{ copyText.classList.remove("show"); },2000);
+    } catch(err){
+        copyText.innerText = "❌ Copy Failed";
+        copyText.style.color = "#ff7070";
+        copyText.classList.add("show");
+    }
+});
+
+/* ================================================= */
+/* CURSOR GLOW */
+/* ================================================= */
+
+const glow = document.querySelector(".cursor-glow");
+document.addEventListener("mousemove",(e)=>{
+    glow.style.left = e.clientX + "px";
+    glow.style.top = e.clientY + "px";
+});
+
+/* ================================================= */
+/* PAGE & TAB SWITCHING LOGIC */
+/* ================================================= */
+
+const homePage = document.getElementById("homePage");
+const serverPage = document.getElementById("serverPage");
+const rulesPage = document.getElementById("rulesPage");
+const navItems = document.querySelectorAll('.nav-item');
+
+function updateActiveTab(tabName) {
+    navItems.forEach(item => item.classList.remove('active'));
+    if(tabName === 'home') navItems[0].classList.add('active');
+    else if (tabName === 'server') navItems[1].classList.add('active');
+    else if (tabName === 'rules') navItems[2].classList.add('active');
+}
+
+function showPage(pageId, tabName) {
+    homePage.classList.remove("active");
+    serverPage.classList.remove("active");
+    rulesPage.classList.remove("active");
+    
+    document.getElementById(pageId).classList.add("active");
+    updateActiveTab(tabName);    window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function openRules(){ showPage('rulesPage', 'rules'); }
+function backHome(){ showPage('homePage', 'home'); }
+
+function switchTab(tabName) {
+    if(tabName === 'home') showPage('homePage', 'home');
+    else if(tabName === 'server') showPage('serverPage', 'server');
+    else if(tabName === 'rules') showPage('rulesPage', 'rules');
+}
+
+</script>
+
+</body>
+</html>
